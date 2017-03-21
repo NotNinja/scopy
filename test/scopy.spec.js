@@ -47,15 +47,15 @@ describe('Scopy', function() {
 
   context('when "symbol" option is enabled', function() {
     it('should return symbol for specified name', function() {
-      var key = Scopy('foo')
+      var key = Scopy('foo', { symbol: true })
 
       expect(key).to.be.a('symbol')
       expect(getSymbolDescription(key)).to.equal('foo')
     })
 
     it('should return unique symbol for same name', function() {
-      var key1 = Scopy('foo')
-      var key2 = Scopy('foo')
+      var key1 = Scopy('foo', { symbol: true })
+      var key2 = Scopy('foo', { symbol: true })
 
       expect(key1).to.be.a('symbol')
       expect(getSymbolDescription(key1)).to.equal('foo')
@@ -66,7 +66,11 @@ describe('Scopy', function() {
   })
 
   context('when "symbol" option is disabled', function() {
-    it('should return specified name with underscore prefix')
+    it('should return specified name with underscore prefix', function() {
+      var key = Scopy('foo', { symbol: false })
+
+      expect(key).to.equal('_foo')
+    })
   })
 
   describe('.all', function() {
