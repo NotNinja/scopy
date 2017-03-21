@@ -173,30 +173,58 @@ describe('Scopy', function() {
 
   describe('.is', function() {
     context('when no options are provided', function() {
-      it('should use symbols')
+      it('should use symbols', function() {
+        expect(Scopy.is(Symbol())).to.be.true
+      })
+    })
+
+    context('when no specified object is null', function() {
+      it('should return false', function() {
+        expect(Scopy.is(null)).to.be.false
+      })
     })
 
     context('when "symbol" option is enabled', function() {
       context('and specified object is a symbol', function() {
-        it('should return true')
+        it('should return true', function() {
+          expect(Scopy.is(Symbol('foo'), { symbol: true })).to.be.true
+        })
       })
 
       context('and specified object is not a symbol', function() {
-        it('should return false')
+        it('should return false', function() {
+          expect(Scopy.is('', { symbol: true })).to.be.false
+          expect(Scopy.is('foo', { symbol: true })).to.be.false
+          expect(Scopy.is('_foo', { symbol: true })).to.be.false
+          expect(Scopy.is('__foo', { symbol: true })).to.be.false
+          expect(Scopy.is('_foo_', { symbol: true })).to.be.false
+          expect(Scopy.is('foo_', { symbol: true })).to.be.false
+        })
       })
     })
 
     context('when "symbol" option is disabled', function() {
       context('and specified object is a string with an underscore prefix', function() {
-        it('should return true')
+        it('should return true', function() {
+          expect(Scopy.is('_foo', { symbol: false })).to.be.true
+          expect(Scopy.is('__foo', { symbol: false })).to.be.true
+          expect(Scopy.is('_foo_', { symbol: false })).to.be.true
+        })
       })
 
       context('and specified object is a string without an underscore prefix', function() {
-        it('should return false')
+        it('should return false', function() {
+          expect(Scopy.is('', { symbol: false })).to.be.false
+          expect(Scopy.is('foo', { symbol: false })).to.be.false
+          expect(Scopy.is('foo_', { symbol: false })).to.be.false
+          expect(Scopy.is(' _foo', { symbol: false })).to.be.false
+        })
       })
 
       context('and specified object is not a string', function() {
-        it('should return false')
+        it('should return false', function() {
+          expect(Scopy.is(Symbol('foo'), { symbol: false })).to.be.false
+        })
       })
     })
   })

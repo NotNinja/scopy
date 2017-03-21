@@ -337,7 +337,7 @@
    * Scopy.is('foo')
    * //=> false
    * </pre>
-   * @param {*} obj - the object to be checked
+   * @param {*} obj - the object to be checked (may be <code>null</code>)
    * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
    * @return {boolean} <code>true</code> if <code>obj</code> is a scoped or "global" key; otherwise <code>false</code>.
    * @public
@@ -345,6 +345,10 @@
    * @memberof Scopy
    */
   Scopy.is = function(obj, options) {
+    if (obj == null) {
+      return false
+    }
+
     options = parseOptions(options);
 
     return options.symbol ? typeof obj === 'symbol' : typeof obj === 'string' && obj[0] === '_'
