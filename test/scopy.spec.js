@@ -27,37 +27,156 @@ var expect = require('chai').expect
 var Scopy = require('../src/scopy')
 
 describe('Scopy', function() {
+  // TODO: Complete
+
   it('should be a function', function() {
     expect(Scopy).to.be.a('function')
   })
 
-  // TODO: Complete
+  context('when no options are provided', function() {
+    it('should use symbols')
+  })
+
+  context('when "symbol" option is enabled', function() {
+    it('should return symbol for specified name')
+
+    it('should return unique symbol for same name')
+  })
+
+  context('when "symbol" option is disabled', function() {
+    it('should return specified name with underscore prefix')
+  })
 
   describe('.all', function() {
-    // TODO: Complete
+    context('when no options are provided', function() {
+      it('should use symbols')
+    })
+
+    context('when "symbol" option is enabled', function() {
+      it('should return object containing symbols mapped to each of specified names')
+
+      it('should return object containing unique symbols mapped to same names')
+    })
+
+    context('when "symbol" option is disabled', function() {
+      it('should return object containing names with underscore prefixes mapped to specified names')
+    })
   })
 
   describe('.entries', function() {
-    // TODO: Complete
+    context('when no options are provided', function() {
+      it('should use symbols')
+    })
+
+    context('when "symbol" option is enabled', function() {
+      it('should return key/value pairs for all of specified object\'s own enumerable properties')
+    })
+
+    context('when "symbol" option is disabled', function() {
+      it('should only return key/value pairs for specified object\'s own enumerable properties without underscore prefix')
+    })
   })
 
   describe('.for', function() {
-    // TODO: Complete
+    context('when no options are provided', function() {
+      it('should use symbols')
+    })
+
+    context('when "symbol" option is enabled', function() {
+      it('should return symbol for specified name')
+
+      it('should return same symbol for same name')
+    })
+
+    context('when "symbol" option is disabled', function() {
+      it('should return specified name with underscore prefix')
+    })
   })
 
   describe('.forAll', function() {
-    // TODO: Complete
+    context('when no options are provided', function() {
+      it('should use symbols')
+    })
+
+    context('when "symbol" option is enabled', function() {
+      it('should return object containing symbols mapped to each of specified names')
+
+      it('should return object containing same symbols mapped to same names')
+    })
+
+    context('when "symbol" option is disabled', function() {
+      it('should return object containing names with underscore prefixes mapped to specified names')
+    })
   })
 
   describe('.is', function() {
-    // TODO: Complete
+    context('when no options are provided', function() {
+      it('should use symbols')
+    })
+
+    context('when "symbol" option is enabled', function() {
+      context('and specified object is a symbol', function() {
+        it('should return true')
+      })
+
+      context('and specified object is not a symbol', function() {
+        it('should return false')
+      })
+    })
+
+    context('when "symbol" option is disabled', function() {
+      context('and specified object is a string with an underscore prefix', function() {
+        it('should return true')
+      })
+
+      context('and specified object is a string without an underscore prefix', function() {
+        it('should return false')
+      })
+
+      context('and specified object is not a string', function() {
+        it('should return false')
+      })
+    })
   })
 
   describe('.keys', function() {
-    // TODO: Complete
+    context('when no options are provided', function() {
+      it('should use symbols')
+    })
+
+    context('when "symbol" option is enabled', function() {
+      it('should return names of all of specified object\'s own enumerable properties')
+    })
+
+    context('when "symbol" option is disabled', function() {
+      it('should only return names of specified object\'s own enumerable properties without underscore prefix')
+    })
   })
 
   describe('.values', function() {
-    // TODO: Complete
+    context('when no options are provided', function() {
+      it('should use symbols')
+    })
+
+    context('when "symbol" option is enabled', function() {
+      it('should return values of all of specified object\'s own enumerable properties')
+    })
+
+    context('when "symbol" option is disabled', function() {
+      it('should only return values of specified object\'s own enumerable properties without underscore prefix')
+    })
   })
+
+  /**
+   * Returns the description that was used for the specified <code>symbol</code>.
+   *
+   * @param {symbol} symbol - the ES2015 <code>Symbol</code> whose description is to be returned
+   * @return {string} The description for <code>symbol</code>.
+   * @private
+   */
+  function getSymbolDescription(symbol) {
+    var match = symbol.toString().match(/^Symbol\((.+)\)$/)
+
+    return match && match[1]
+  }
 })

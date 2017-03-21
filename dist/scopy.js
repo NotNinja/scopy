@@ -27,14 +27,6 @@
    */
 
   /**
-   * A convenient shorthand for the <code>Object.prototype.hasOwnProperty</code> method.
-   *
-   * @private
-   * @type {Function}
-   */
-  var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-  /**
    * Returns a scoped key based on the specified <code>name</code> and using the <code>options</code> provided.
    *
    * If the <code>symbol</code> option is enabled (which it is by default), an ES2015 <code>Symbol</code> will be
@@ -499,7 +491,7 @@
     var result = [];
 
     for (var name in obj) {
-      if (hasOwnProperty.call(obj, name) && (options.symbol || name[0] !== '_')) {
+      if (Object.prototype.hasOwnProperty.call(obj, name) && (options.symbol || name[0] !== '_')) {
         result.push(mapper(obj[name], name));
       }
     }
