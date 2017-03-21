@@ -47,10 +47,14 @@ describe('Scopy', function() {
 
   context('when "symbol" option is enabled', function() {
     it('should return symbol for specified name', function() {
-      var key = Scopy('foo', { symbol: true })
+      var key1 = Scopy('foo', { symbol: true })
+      var key2 = Scopy('bar', { symbol: true })
 
-      expect(key).to.be.a('symbol')
-      expect(getSymbolDescription(key)).to.equal('foo')
+      expect(key1).to.be.a('symbol')
+      expect(getSymbolDescription(key1)).to.equal('foo')
+      expect(key2).to.be.a('symbol')
+      expect(getSymbolDescription(key2)).to.equal('bar')
+      expect(key1).to.not.equal(key2)
     })
 
     it('should return unique symbol for same name', function() {
@@ -104,18 +108,50 @@ describe('Scopy', function() {
   })
 
   describe('.for', function() {
+    var counter = 0
+    var namePrefix
+
+    beforeEach(function() {
+      counter++
+      namePrefix = 'for.t' + counter + '.'
+    })
+
     context('when no options are provided', function() {
-      it('should use symbols')
+      it('should use symbols', function() {
+        expect(Scopy.for(namePrefix + 'foo')).to.be.a('symbol')
+      })
     })
 
     context('when "symbol" option is enabled', function() {
-      it('should return symbol for specified name')
+      it('should return symbol for specified name', function() {
+        var key1 = Scopy.for(namePrefix + 'foo', { symbol: true })
+        var key2 = Scopy.for(namePrefix + 'bar', { symbol: true })
 
-      it('should return same symbol for same name')
+        expect(key1).to.be.a('symbol')
+        expect(getSymbolDescription(key1)).to.equal(namePrefix + 'foo')
+        expect(key2).to.be.a('symbol')
+        expect(getSymbolDescription(key2)).to.equal(namePrefix + 'bar')
+        expect(key1).to.not.equal(key2)
+      })
+
+      it('should return same symbol for same name', function() {
+        var key1 = Scopy.for(namePrefix + 'foo', { symbol: true })
+        var key2 = Scopy.for(namePrefix + 'foo', { symbol: true })
+
+        expect(key1).to.be.a('symbol')
+        expect(getSymbolDescription(key1)).to.equal(namePrefix + 'foo')
+        expect(key1).to.equal(key2)
+      })
     })
 
     context('when "symbol" option is disabled', function() {
-      it('should return specified name with underscore prefix')
+      it('should return specified name with underscore prefix', function() {
+        var key1 = Scopy.for(namePrefix + 'foo', { symbol: false })
+        var key2 = Scopy.for(namePrefix + 'foo', { symbol: false })
+
+        expect(key1).to.equal('_' + namePrefix + 'foo')
+        expect(key2).to.equal('_' + namePrefix + 'foo')
+      })
     })
   })
 
