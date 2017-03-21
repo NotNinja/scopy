@@ -28,6 +28,20 @@ var Scopy = require('../src/scopy')
 
 describe('Scopy', function() {
   // TODO: Complete
+  var Test
+
+  before(function() {
+    Test = function() {
+      this.foo = true
+      this.bar = 123
+      this._fu = 'Hello'
+      this[Symbol('baz')] = 'World'
+    }
+
+    Test.prototype.fizz = function() {
+      return 'buzz'
+    }
+  })
 
   it('should be a function', function() {
     expect(Scopy).to.be.a('function')
@@ -126,11 +140,11 @@ describe('Scopy', function() {
     })
 
     context('when "symbol" option is enabled', function() {
-      it('should return key/value pairs for all of specified object\'s own enumerable properties')
+      it('should return key/value pairs for all of specified object\'s properties')
     })
 
     context('when "symbol" option is disabled', function() {
-      it('should only return key/value pairs for specified object\'s own enumerable properties without underscore prefix')
+      it('should only return key/value pairs for specified object\'s properties without underscore prefix')
     })
   })
 
@@ -313,15 +327,35 @@ describe('Scopy', function() {
 
   describe('.keys', function() {
     context('when no options are provided', function() {
-      it('should use symbols (where possible)')
+      it('should use symbols (where possible)', function() {
+        var keys = Scopy.keys(new Test())
+
+        expect(keys).to.have.lengthOf(3)
+        expect(keys).to.include('foo')
+        expect(keys).to.include('bar')
+        expect(keys).to.include('_fu')
+      })
     })
 
     context('when "symbol" option is enabled', function() {
-      it('should return names of all of specified object\'s own enumerable properties')
+      it('should return names of all of specified object\'s properties', function() {
+        var keys = Scopy.keys(new Test(), { symbol: true })
+
+        expect(keys).to.have.lengthOf(3)
+        expect(keys).to.include('foo')
+        expect(keys).to.include('bar')
+        expect(keys).to.include('_fu')
+      })
     })
 
     context('when "symbol" option is disabled', function() {
-      it('should only return names of specified object\'s own enumerable properties without underscore prefix')
+      it('should only return names of specified object\'s properties without underscore prefix', function() {
+        var keys = Scopy.keys(new Test(), { symbol: false })
+
+        expect(keys).to.have.lengthOf(2)
+        expect(keys).to.include('foo')
+        expect(keys).to.include('bar')
+      })
     })
   })
 
@@ -331,11 +365,11 @@ describe('Scopy', function() {
     })
 
     context('when "symbol" option is enabled', function() {
-      it('should return values of all of specified object\'s own enumerable properties')
+      it('should return values of all of specified object\'s properties')
     })
 
     context('when "symbol" option is disabled', function() {
-      it('should only return values of specified object\'s own enumerable properties without underscore prefix')
+      it('should only return values of specified object\'s properties without underscore prefix')
     })
   })
 
