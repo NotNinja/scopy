@@ -1,0 +1,51 @@
+{
+  "name": "scopy",
+  "version": "0.1.0alpha",
+  "description": "Property scoping done quick and dirty",
+  "homepage": "https://github.com/Skelp/scopy",
+  "bugs": {
+    "url": "https://github.com/Skelp/scopy/issues"
+  },
+  "author": {
+    "name": "Alasdair Mercer",
+    "email": "alasdair@skelp.io",
+    "url": "https://skelp.io"
+  },
+  "license": "MIT",
+  "keywords": [
+    "property",
+    "scope",
+    "symbol"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Skelp/scopy.git"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint-config-skelp": "^0.1.5",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-coveralls": "^1.0.1",
+    "grunt-eslint": "^19.0.0",
+    "grunt-mocha-istanbul": "^5.0.2",
+    "grunt-mocha-test": "^0.13.2",
+    "grunt-rollup": "^1.0.1",
+    "istanbul": "^0.4.5",
+    "load-grunt-tasks": "^3.5.2",
+    "mocha": "^3.2.0",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-uglify": "^1.0.1"
+  },
+  "main": "src/scopy.js",
+  "browser": "dist/scopy.js",
+  "scripts": {
+    "build": "grunt build",
+    "ci": "grunt ci",
+    "report-coverage": "grunt coveralls",
+    "test": "grunt test"
+  }
+}

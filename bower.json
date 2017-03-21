@@ -1,0 +1,41 @@
+{
+  "name": "scopy",
+  "version": "0.1.0alpha",
+  "description": "Property scoping done quick and dirty",
+  "homepage": "https://github.com/Skelp/scopy",
+  "authors": [
+    {
+      "name": "Alasdair Mercer",
+      "email": "alasdair@skelp.io",
+      "homepage": "https://skelp.io"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "property",
+    "scope",
+    "symbol"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Skelp/scopy.git"
+  },
+  "main": "dist/scopy.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "coverage/",
+    "src/",
+    "test/",
+    ".*",
+    "AUTHORS.md",
+    "CHANGES.md",
+    "CONTRIBUTING.md",
+    "Gruntfile.js",
+    "package.json",
+    "README.md"
+  ]
+}
