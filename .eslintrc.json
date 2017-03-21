@@ -9,6 +9,12 @@
       "error",
       4
     ],
+    "new-cap": [
+      "error",
+      {
+        "capIsNewExceptions": [ "Scopy" ]
+      }
+    ],
     "no-use-before-define": [
       "error",
       {

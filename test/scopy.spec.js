@@ -33,14 +33,36 @@ describe('Scopy', function() {
     expect(Scopy).to.be.a('function')
   })
 
+  it('should throw an error if instantiated', function() {
+    expect(function() {
+      return new Scopy('foo')
+    }).to.throw(TypeError, 'Scopy is not a constructor')
+  })
+
   context('when no options are provided', function() {
-    it('should use symbols')
+    it('should use symbols', function() {
+      expect(Scopy('foo')).to.be.a('symbol')
+    })
   })
 
   context('when "symbol" option is enabled', function() {
-    it('should return symbol for specified name')
+    it('should return symbol for specified name', function() {
+      var key = Scopy('foo')
 
-    it('should return unique symbol for same name')
+      expect(key).to.be.a('symbol')
+      expect(getSymbolDescription(key)).to.equal('foo')
+    })
+
+    it('should return unique symbol for same name', function() {
+      var key1 = Scopy('foo')
+      var key2 = Scopy('foo')
+
+      expect(key1).to.be.a('symbol')
+      expect(getSymbolDescription(key1)).to.equal('foo')
+      expect(key2).to.be.a('symbol')
+      expect(getSymbolDescription(key2)).to.equal('foo')
+      expect(key1).to.not.equal(key2)
+    })
   })
 
   context('when "symbol" option is disabled', function() {

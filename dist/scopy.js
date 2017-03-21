@@ -57,9 +57,14 @@
    * @param {string} name - the name for the scoped key
    * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
    * @return {string|symbol} The scoped key for <code>name</code>.
+   * @throws {TypeError} If an attempt is made to instantiate <code>Scopy</code> (e.g. via <code>new</code>).
    * @public
    */
   function Scopy(name, options) {
+    if (this instanceof Scopy) {
+      throw new TypeError('Scopy is not a constructor')
+    }
+
     var factory = getKeyFactory(false, options);
 
     return factory(name)
