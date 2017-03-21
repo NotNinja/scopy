@@ -46,7 +46,7 @@ If you want to simply download the file to be used in the browser you can find t
 
 ## API
 
-TOD: Document
+TODO: Document
 
 ## Bugs
 
