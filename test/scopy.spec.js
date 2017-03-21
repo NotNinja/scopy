@@ -27,7 +27,6 @@ var expect = require('chai').expect
 var Scopy = require('../src/scopy')
 
 describe('Scopy', function() {
-  // TODO: Complete
   var Test
 
   before(function() {
@@ -92,6 +91,12 @@ describe('Scopy', function() {
   })
 
   describe('.all', function() {
+    context('when no names are provided', function() {
+      it('should return an empty array', function() {
+        expect(Scopy.all()).to.be.empty
+      })
+    })
+
     context('when no options are provided', function() {
       it('should use symbols (where possible)', function() {
         var keys = Scopy.all([ 'foo', 'bar' ])
@@ -136,15 +141,60 @@ describe('Scopy', function() {
 
   describe('.entries', function() {
     context('when no options are provided', function() {
-      it('should use symbols (where possible)')
+      it('should use symbols (where possible)', function() {
+        var expectedValues = {
+          foo: true,
+          bar: 123,
+          _fu: 'Hello'
+        }
+
+        var entries = Scopy.entries(new Test())
+
+        expect(entries).to.have.lengthOf(3)
+        expect(expectedValues).to.have.ownProperty(entries[0][0])
+        expect(expectedValues[entries[0][0]]).to.equal(entries[0][1])
+        expect(expectedValues).to.have.ownProperty(entries[1][0])
+        expect(expectedValues[entries[1][0]]).to.equal(entries[1][1])
+        expect(expectedValues).to.have.ownProperty(entries[2][0])
+        expect(expectedValues[entries[2][0]]).to.equal(entries[2][1])
+      })
     })
 
     context('when "symbol" option is enabled', function() {
-      it('should return key/value pairs for all of specified object\'s properties')
+      it('should return entries for all of specified object\'s properties', function() {
+        var expectedValues = {
+          foo: true,
+          bar: 123,
+          _fu: 'Hello'
+        }
+
+        var entries = Scopy.entries(new Test(), { symbol: true })
+
+        expect(entries).to.have.lengthOf(3)
+        expect(expectedValues).to.have.ownProperty(entries[0][0])
+        expect(expectedValues[entries[0][0]]).to.equal(entries[0][1])
+        expect(expectedValues).to.have.ownProperty(entries[1][0])
+        expect(expectedValues[entries[1][0]]).to.equal(entries[1][1])
+        expect(expectedValues).to.have.ownProperty(entries[2][0])
+        expect(expectedValues[entries[2][0]]).to.equal(entries[2][1])
+      })
     })
 
     context('when "symbol" option is disabled', function() {
-      it('should only return key/value pairs for specified object\'s properties without underscore prefix')
+      it('should only return entries for specified object\'s properties without underscore prefix', function() {
+        var expectedValues = {
+          foo: true,
+          bar: 123
+        }
+
+        var entries = Scopy.entries(new Test(), { symbol: false })
+
+        expect(entries).to.have.lengthOf(2)
+        expect(expectedValues).to.have.ownProperty(entries[0][0])
+        expect(expectedValues[entries[0][0]]).to.equal(entries[0][1])
+        expect(expectedValues).to.have.ownProperty(entries[1][0])
+        expect(expectedValues[entries[1][0]]).to.equal(entries[1][1])
+      })
     })
   })
 
@@ -211,6 +261,12 @@ describe('Scopy', function() {
     beforeEach(function() {
       counter++
       namePrefix = 'forAll.t' + counter + '.'
+    })
+
+    context('when no names are provided', function() {
+      it('should return an empty array', function() {
+        expect(Scopy.forAll()).to.be.empty
+      })
     })
 
     context('when no options are provided', function() {
