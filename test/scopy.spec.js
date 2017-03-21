@@ -361,15 +361,35 @@ describe('Scopy', function() {
 
   describe('.values', function() {
     context('when no options are provided', function() {
-      it('should use symbols (where possible)')
+      it('should use symbols (where possible)', function() {
+        var values = Scopy.values(new Test())
+
+        expect(values).to.have.lengthOf(3)
+        expect(values).to.include(true)
+        expect(values).to.include(123)
+        expect(values).to.include('Hello')
+      })
     })
 
     context('when "symbol" option is enabled', function() {
-      it('should return values of all of specified object\'s properties')
+      it('should return values of all of specified object\'s properties', function() {
+        var values = Scopy.values(new Test(), { symbol: true })
+
+        expect(values).to.have.lengthOf(3)
+        expect(values).to.include(true)
+        expect(values).to.include(123)
+        expect(values).to.include('Hello')
+      })
     })
 
     context('when "symbol" option is disabled', function() {
-      it('should only return values of specified object\'s properties without underscore prefix')
+      it('should only return values of specified object\'s properties without underscore prefix', function() {
+        var values = Scopy.values(new Test(), { symbol: false })
+
+        expect(values).to.have.lengthOf(2)
+        expect(values).to.include(true)
+        expect(values).to.include(123)
+      })
     })
   })
 
