@@ -33,10 +33,12 @@ describe('Scopy', function() {
     expect(Scopy).to.be.a('function')
   })
 
-  it('should throw an error if instantiated', function() {
-    expect(function() {
-      return new Scopy('foo')
-    }).to.throw(TypeError, 'Scopy is not a constructor')
+  context('when instantiated', function() {
+    it('should throw an error', function() {
+      expect(function() {
+        return new Scopy('foo')
+      }).to.throw(TypeError, 'Scopy is not a constructor')
+    })
   })
 
   context('when no options are provided', function() {
@@ -61,10 +63,6 @@ describe('Scopy', function() {
       var key1 = Scopy('foo', { symbol: true })
       var key2 = Scopy('foo', { symbol: true })
 
-      expect(key1).to.be.a('symbol')
-      expect(getSymbolDescription(key1)).to.equal('foo')
-      expect(key2).to.be.a('symbol')
-      expect(getSymbolDescription(key2)).to.equal('foo')
       expect(key1).to.not.equal(key2)
     })
   })
@@ -79,23 +77,50 @@ describe('Scopy', function() {
 
   describe('.all', function() {
     context('when no options are provided', function() {
-      it('should use symbols')
+      it('should use symbols (where possible)', function() {
+        var keys = Scopy.all([ 'foo', 'bar' ])
+
+        expect(keys).to.have.all.keys([ 'foo', 'bar' ])
+        expect(keys.foo).to.be.a('symbol')
+        expect(keys.bar).to.be.a('symbol')
+      })
     })
 
     context('when "symbol" option is enabled', function() {
-      it('should return object containing symbols mapped to each of specified names')
+      it('should return object containing symbols mapped to each of specified names', function() {
+        var keys = Scopy.all([ 'foo', 'bar', 'foo' ], { symbol: true })
 
-      it('should return object containing unique symbols mapped to same names')
+        expect(keys).to.have.all.keys([ 'foo', 'bar' ])
+        expect(keys.foo).to.be.a('symbol')
+        expect(getSymbolDescription(keys.foo)).to.equal('foo')
+        expect(keys.bar).to.be.a('symbol')
+        expect(getSymbolDescription(keys.bar)).to.equal('bar')
+        expect(keys.foo).to.not.equal(keys.bar)
+      })
+
+      it('should return object containing unique symbols mapped to same names', function() {
+        var keys1 = Scopy.all([ 'foo', 'bar' ], { symbol: true })
+        var keys2 = Scopy.all([ 'foo', 'bar' ], { symbol: true })
+
+        expect(keys1.foo).to.not.equal(keys2.foo)
+        expect(keys1.bar).to.not.equal(keys2.bar)
+      })
     })
 
     context('when "symbol" option is disabled', function() {
-      it('should return object containing names with underscore prefixes mapped to specified names')
+      it('should return object containing names with underscore prefixes mapped to specified names', function() {
+        var keys = Scopy.all([ 'foo', 'bar', 'foo' ], { symbol: false })
+
+        expect(keys).to.have.all.keys([ 'foo', 'bar' ])
+        expect(keys.foo).to.equal('_foo')
+        expect(keys.bar).to.equal('_bar')
+      })
     })
   })
 
   describe('.entries', function() {
     context('when no options are provided', function() {
-      it('should use symbols')
+      it('should use symbols (where possible)')
     })
 
     context('when "symbol" option is enabled', function() {
@@ -138,8 +163,6 @@ describe('Scopy', function() {
         var key1 = Scopy.for(namePrefix + 'foo', { symbol: true })
         var key2 = Scopy.for(namePrefix + 'foo', { symbol: true })
 
-        expect(key1).to.be.a('symbol')
-        expect(getSymbolDescription(key1)).to.equal(namePrefix + 'foo')
         expect(key1).to.equal(key2)
       })
     })
@@ -157,7 +180,7 @@ describe('Scopy', function() {
 
   describe('.forAll', function() {
     context('when no options are provided', function() {
-      it('should use symbols')
+      it('should use symbols (where possible)')
     })
 
     context('when "symbol" option is enabled', function() {
@@ -231,7 +254,7 @@ describe('Scopy', function() {
 
   describe('.keys', function() {
     context('when no options are provided', function() {
-      it('should use symbols')
+      it('should use symbols (where possible)')
     })
 
     context('when "symbol" option is enabled', function() {
@@ -245,7 +268,7 @@ describe('Scopy', function() {
 
   describe('.values', function() {
     context('when no options are provided', function() {
-      it('should use symbols')
+      it('should use symbols (where possible)')
     })
 
     context('when "symbol" option is enabled', function() {
