@@ -137,7 +137,7 @@ Returns a "global" key based on the specified `name` and using the `options` pro
 If the `symbol` option is enabled (which it is by default), an ES2015 `Symbol` will be returned from the runtime-wide
 symbol registry (where supported), otherwise this method will simply return `name` prefixed with an underscore.
 
-Unlike [Scopy](#scopynameoptions), `Symbols` returned by this method will always be the same when called multiple times
+Unlike [Scopy](#scopyname-options), `Symbols` returned by this method will always be the same when called multiple times
 with the same `name`, just like string keys.
 
 It is recommended that `name` be prefixed in order to avoid conflicts with other libraries that may also have a "global"
@@ -185,7 +185,7 @@ If the `symbol` option is enabled (which it is by default), this method will ret
 from the runtime-wide symbol registry (where supported), otherwise `names` will simply be mapped to themselves prefixed
 with an underscore.
 
-Unlike [Scopy.all](#scopyallnamesoptions), `Symbols` included in the mapping returned by this method will always be the
+Unlike [Scopy.all](#scopyallnames-options), `Symbols` included in the mapping returned by this method will always be the
 same when called multiple times with the same name, just like string keys.
 
 It is recommended that each name within `names` be prefixed in order to avoid conflicts with other libraries that may
