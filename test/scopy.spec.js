@@ -421,6 +421,20 @@ describe('Scopy', function() {
     })
   })
 
+  describe('.using', function() {
+    context('when no options are provided', function() {
+      it('should use symbols (where possible)')
+
+      it('should ignore any options passed to methods')
+    })
+
+    context('when options are provided', function() {
+      it('should apply options to all methods')
+
+      it('should ignore any options passed to methods')
+    })
+  })
+
   describe('.values', function() {
     context('when no options are provided', function() {
       it('should use symbols (where possible)', function() {

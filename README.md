@@ -53,8 +53,8 @@ install that way instead of using `npm`. While equals should be compatible with 
 
 If you want to simply download the file to be used in the browser you can find them below:
 
-* [Development Version](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.js) (19kb - [Source Map](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.js.map))
-* [Production Version](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.min.js) (1.3kb - [Source Map](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.min.js.map))
+* [Development Version](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.js) (23kb - [Source Map](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.js.map))
+* [Production Version](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.min.js) (1.6kb - [Source Map](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.min.js.map))
 
 ## API
 
@@ -65,7 +65,10 @@ All API methods accept the same optional `options` parameter:
 | `symbol` | Whether to use ES2015's `Symbol`, where supported. | `true`        |
 
 When specifying `options` for any API method call, it is recommended to pass the same options to all other API method
-calls within your application/library to ensure that the same type of scoped keys are returned.
+calls within your application/library to ensure that the same type of scoped keys are returned. Alternatively, the
+[Scopy.using](#scopyusing-options) method can be used to create wrapped version of the Scopy API that will always use
+the specified options for all methods called on the wrapped API, avoiding the need for duplicating the options
+throughout your code base.
 
 ### `Scopy(name[, options])`
 
@@ -286,9 +289,9 @@ User.prototype.getName = function() {
 }
 
 Scopy.entries(new User('foo'))
-//=> [ [ 'length', 3 ] ]
+//=> [ [ "length", 3 ] ]
 Scopy.entries(User.prototype)
-//=> [ [ 'getName', function() { return this[_name] } ] ]
+//=> [ [ "getName", function() { return this[_name] } ] ]
 ```
 
 ### `Scopy.keys(obj[, options])`
@@ -326,9 +329,9 @@ User.prototype.getName = function() {
 }
 
 Scopy.keys(new User('foo'))
-//=> [ 'length' ]
+//=> [ "length" ]
 Scopy.keys(User.prototype)
-//=> [ 'getName' ]
+//=> [ "getName" ]
 ```
 
 ### `Scopy.values(obj[, options])`
@@ -369,6 +372,30 @@ Scopy.values(new User('foo'))
 //=> [ 3 ]
 Scopy.values(User.prototype)
 //=> [ function() { return this[_name] } ]
+```
+
+### `Scopy.using([options])`
+
+Returns a version of [Scopy](#scopyname-options) that is bound (along with *all* of its methods) to the specified
+`options`.
+
+Since it's recommended that consumers use the same options, when specified, this method can be really useful as it
+allows consumers to only specify the options once. This is especially useful for those wishing to explictly disable the
+`symbol` option.
+
+Any options passed to the methods within the returned wrapped Scopy API will be ignored in favor of `options`.
+
+``` javascript
+var Scopy = require('scopy').using({ symbol: false })
+
+Scopy('foo')
+//=> "_foo"
+Scopy.all([ 'foo', 'bar' ])
+//=> { foo: "_foo", bar: "_bar" }
+Scopy.is('_foo')
+//=> true
+Scopy.is(Symbol('foo'))
+//=> false
 ```
 
 ## Bugs
