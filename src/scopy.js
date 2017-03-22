@@ -26,7 +26,7 @@
  * Returns a scoped key based on the specified <code>name</code> and using the <code>options</code> provided.
  *
  * If the <code>symbol</code> option is enabled (which it is by default), an ES2015 <code>Symbol</code> will be
- * returned, otherwise this method will simply return <code>name</code> prefixed with an underscore.
+ * returned (where supported), otherwise this method will simply return <code>name</code> prefixed with an underscore.
  *
  * <code>Symbols</code> returned by this method will always be unique when called multiple times with the same
  * <code>name</code>, however, string keys will always be exactly the same.
@@ -70,8 +70,8 @@ function Scopy(name, options) {
  * Returns scoped keys based on the specified <code>names</code> and using the <code>options</code> provided.
  *
  * If the <code>symbol</code> option is enabled (which it is by default), this method will return <code>names</code>
- * mapped to ES2015 <code>Symbols</code>, otherwise <code>names</code> will simply be mapped to themselves prefixed with
- * an underscore.
+ * mapped to ES2015 <code>Symbols</code> (where supported), otherwise <code>names</code> will simply be mapped to
+ * themselves prefixed with an underscore.
  *
  * <code>Symbols</code> included in the mapping returned by this method will always be unique when called multiple times
  * with the same name, however, string keys will always be exactly the same.
@@ -184,8 +184,8 @@ Scopy.entries = function(obj, options) {
  * Returns a "global" key based on the specified <code>name</code> and using the <code>options</code> provided.
  *
  * If the <code>symbol</code> option is enabled (which it is by default), an ES2015 <code>Symbol</code> will be returned
- * from the runtime-wide symbol registry, otherwise this method will simply return <code>name</code> prefixed with an
- * underscore.
+ * from the runtime-wide symbol registry (where supported), otherwise this method will simply return <code>name</code>
+ * prefixed with an underscore.
  *
  * Unlike {@link Scopy}, <code>Symbols</code> returned by this method will always be the same when called multiple times
  * with the same <code>name</code>, just like string keys.
@@ -244,8 +244,8 @@ Scopy.for = function(name, options) {
  * Returns "global" keys based on the specified <code>names</code> and using the <code>options</code> provided.
  *
  * If the <code>symbol</code> option is enabled (which it is by default), this method will return <code>names</code>
- * mapped to ES2015 <code>Symbols</code> from the runtime-wide symbol registry, otherwise <code>names</code> will simply
- * be mapped to themselves prefixed with an underscore.
+ * mapped to ES2015 <code>Symbols</code> from the runtime-wide symbol registry (where supported), otherwise
+ * <code>names</code> will simply be mapped to themselves prefixed with an underscore.
  *
  * Unlike {@link Scopy.all}, <code>Symbols</code> included in the mapping returned by this method will always be the
  * same when called multiple times with the same name, just like string keys.
@@ -319,8 +319,8 @@ Scopy.forAll = function(names, options) {
  * provided.
  *
  * If the <code>symbol</code> option is enabled (which it is by default), this method will return <code>true</code> if
- * <code>obj</code> is an ES2015 <code>Symbol</code>, otherwise it will only return <code>true</code> if and only if
- * <code>obj</code> is a string that starts with at least one underscore.
+ * <code>obj</code> is an ES2015 <code>Symbol</code> (where supported), otherwise it will only return <code>true</code>
+ * if and only if <code>obj</code> is a string that starts with at least one underscore.
  *
  * @example
  * <pre>
