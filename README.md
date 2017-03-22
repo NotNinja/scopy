@@ -177,7 +177,9 @@ exports.login = function(output, user) {
 }
 ```
 
-### `Scopy.forAll(names[, options])`
+### `Scopy.for.all(names[, options])`
+
+**Alias:** `Scopy.forAll`
 
 Returns "global" keys based on the specified `names` and using the `options` provided.
 
@@ -198,7 +200,7 @@ This method is ideal when defining keys for protected/internally scoped properti
 var Scopy = require('scopy')
 var uuid = require('node-uuid/v4')
 
-var keys = Scopy.forAll([ 'example_user_id', 'example_user_lastUpdatedBy' ])
+var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
 var _name = Scopy('name')
 
 function User(name) {
@@ -217,7 +219,7 @@ module.exports = User
 var EOL = require('os').EOL
 var Scopy = require('scopy')
 
-var keys = Scopy.forAll([ 'example_user_id', 'example_user_lastUpdatedBy' ])
+var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
 
 exports.update = function(output, user) {
   var id = user[keys['example.user.id']]

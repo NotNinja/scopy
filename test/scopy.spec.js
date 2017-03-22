@@ -254,18 +254,18 @@ describe('Scopy', function() {
     })
   })
 
-  describe('.forAll', function() {
+  describe('.for.all', function() {
     var counter = 0
     var namePrefix
 
     beforeEach(function() {
       counter++
-      namePrefix = 'forAll.t' + counter + '.'
+      namePrefix = 'for.all.t' + counter + '.'
     })
 
     context('when no names are provided', function() {
       it('should return an empty array', function() {
-        expect(Scopy.forAll()).to.be.empty
+        expect(Scopy.for.all()).to.be.empty
       })
     })
 
@@ -274,7 +274,7 @@ describe('Scopy', function() {
         var foo = namePrefix + 'foo'
         var bar = namePrefix + 'bar'
 
-        var keys = Scopy.forAll([ foo, bar, foo ])
+        var keys = Scopy.for.all([ foo, bar, foo ])
 
         expect(keys).to.have.all.keys([ foo, bar ])
         expect(keys[foo]).to.be.a('symbol')
@@ -287,7 +287,7 @@ describe('Scopy', function() {
         var foo = namePrefix + 'foo'
         var bar = namePrefix + 'bar'
 
-        var keys = Scopy.forAll([ foo, bar, foo ], { symbol: true })
+        var keys = Scopy.for.all([ foo, bar, foo ], { symbol: true })
 
         expect(keys).to.have.all.keys([ foo, bar ])
         expect(keys[foo]).to.be.a('symbol')
@@ -301,8 +301,8 @@ describe('Scopy', function() {
         var foo = namePrefix + 'foo'
         var bar = namePrefix + 'bar'
 
-        var keys1 = Scopy.forAll([ foo, bar ], { symbol: true })
-        var keys2 = Scopy.forAll([ foo, bar ], { symbol: true })
+        var keys1 = Scopy.for.all([ foo, bar ], { symbol: true })
+        var keys2 = Scopy.for.all([ foo, bar ], { symbol: true })
 
         expect(keys1[foo]).to.equal(keys2[foo])
         expect(keys1[bar]).to.equal(keys2[bar])
@@ -314,12 +314,18 @@ describe('Scopy', function() {
         var foo = namePrefix + 'foo'
         var bar = namePrefix + 'bar'
 
-        var keys = Scopy.forAll([ foo, bar, foo ], { symbol: false })
+        var keys = Scopy.for.all([ foo, bar, foo ], { symbol: false })
 
         expect(keys).to.have.all.keys([ foo, bar ])
         expect(keys[foo]).to.equal('_' + foo)
         expect(keys[bar]).to.equal('_' + bar)
       })
+    })
+  })
+
+  describe('.forAll', function() {
+    it('should be an alias for Scopy.for.all', function() {
+      expect(Scopy.forAll).to.equal(Scopy.for.all)
     })
   })
 

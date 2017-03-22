@@ -265,7 +265,7 @@
    * var Scopy = require('scopy')
    * var uuid = require('node-uuid/v4')
    *
-   * var keys = Scopy.forAll([ 'example_user_id', 'example_user_lastUpdatedBy' ])
+   * var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
    * var _name = Scopy('name')
    *
    * function User(name) {
@@ -284,7 +284,7 @@
    * var EOL = require('os').EOL
    * var Scopy = require('scopy')
    *
-   * var keys = Scopy.forAll([ 'example_user_id', 'example_user_lastUpdatedBy' ])
+   * var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
    *
    * exports.update = function(output, user) {
    *   var id = user[keys['example.user.id']]
@@ -299,9 +299,9 @@
    * keys.
    * @public
    * @static
-   * @memberof Scopy
+   * @memberof Scopy.for
    */
-  Scopy.forAll = function(names, options) {
+  Scopy.for.all = function(names, options) {
     names = names || [];
 
     var factory = getKeyFactory(true, options);
@@ -317,6 +317,19 @@
 
     return keys
   };
+
+  /**
+   * An alias for the {@link Scopy.for.all} method.
+   *
+   * @param {string[]} [names] - the names for the "global" keys (may be <code>null</code>)
+   * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
+   * @return {Object.<string, string|symbol>} A mapping containing <code>names</code> and their corresponding "global"
+   * keys.
+   * @public
+   * @static
+   * @memberof Scopy
+   */
+  Scopy.forAll = Scopy.for.all;
 
   /**
    * Returns whether the specified <code>obj</code> represents a scoped or "global" key based on the <code>options</code>
