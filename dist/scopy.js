@@ -465,6 +465,7 @@
     ], options);
 
     BoundScopy.for.all = BoundScopy.forAll;
+    BoundScopy.using = Scopy.using;
 
     return BoundScopy
   };
