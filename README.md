@@ -66,9 +66,9 @@ All API methods accept the same optional `options` parameter:
 
 When specifying `options` for any API method call, it is recommended to pass the same options to all other API method
 calls within your application/library to ensure that the same type of scoped keys are returned. Alternatively, the
-[Scopy.using](#scopyusing-options) method can be used to create wrapped version of the Scopy API that will always use
-the specified options for all methods called on the wrapped API, avoiding the need for duplicating the options
-throughout your code base.
+[Scopy.using](#scopyusingoptions) method can be used to create wrapped version of the Scopy API that will always use the
+specified options for all methods called on the wrapped API, avoiding the need for duplicating the options throughout
+your code base.
 
 ### `Scopy(name[, options])`
 
