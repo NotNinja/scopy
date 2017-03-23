@@ -4,6 +4,15 @@
     "mocha": true
   },
   "rules": {
+    "new-cap": [
+      "error",
+      {
+        "capIsNewExceptions": [
+          "BoundScopy",
+          "Scopy"
+        ]
+      }
+    ],
     "no-unused-expressions": "off"
   }
 }

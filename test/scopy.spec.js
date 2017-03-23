@@ -254,18 +254,18 @@ describe('Scopy', function() {
     })
   })
 
-  describe('.forAll', function() {
+  describe('.for.all', function() {
     var counter = 0
     var namePrefix
 
     beforeEach(function() {
       counter++
-      namePrefix = 'forAll.t' + counter + '.'
+      namePrefix = 'for.all.t' + counter + '.'
     })
 
     context('when no names are provided', function() {
       it('should return an empty array', function() {
-        expect(Scopy.forAll()).to.be.empty
+        expect(Scopy.for.all()).to.be.empty
       })
     })
 
@@ -274,7 +274,7 @@ describe('Scopy', function() {
         var foo = namePrefix + 'foo'
         var bar = namePrefix + 'bar'
 
-        var keys = Scopy.forAll([ foo, bar, foo ])
+        var keys = Scopy.for.all([ foo, bar, foo ])
 
         expect(keys).to.have.all.keys([ foo, bar ])
         expect(keys[foo]).to.be.a('symbol')
@@ -287,7 +287,7 @@ describe('Scopy', function() {
         var foo = namePrefix + 'foo'
         var bar = namePrefix + 'bar'
 
-        var keys = Scopy.forAll([ foo, bar, foo ], { symbol: true })
+        var keys = Scopy.for.all([ foo, bar, foo ], { symbol: true })
 
         expect(keys).to.have.all.keys([ foo, bar ])
         expect(keys[foo]).to.be.a('symbol')
@@ -301,8 +301,8 @@ describe('Scopy', function() {
         var foo = namePrefix + 'foo'
         var bar = namePrefix + 'bar'
 
-        var keys1 = Scopy.forAll([ foo, bar ], { symbol: true })
-        var keys2 = Scopy.forAll([ foo, bar ], { symbol: true })
+        var keys1 = Scopy.for.all([ foo, bar ], { symbol: true })
+        var keys2 = Scopy.for.all([ foo, bar ], { symbol: true })
 
         expect(keys1[foo]).to.equal(keys2[foo])
         expect(keys1[bar]).to.equal(keys2[bar])
@@ -314,12 +314,18 @@ describe('Scopy', function() {
         var foo = namePrefix + 'foo'
         var bar = namePrefix + 'bar'
 
-        var keys = Scopy.forAll([ foo, bar, foo ], { symbol: false })
+        var keys = Scopy.for.all([ foo, bar, foo ], { symbol: false })
 
         expect(keys).to.have.all.keys([ foo, bar ])
         expect(keys[foo]).to.equal('_' + foo)
         expect(keys[bar]).to.equal('_' + bar)
       })
+    })
+  })
+
+  describe('.forAll', function() {
+    it('should be an alias for Scopy.for.all', function() {
+      expect(Scopy.forAll).to.equal(Scopy.for.all)
     })
   })
 
@@ -411,6 +417,144 @@ describe('Scopy', function() {
         expect(keys).to.have.lengthOf(2)
         expect(keys).to.include('foo')
         expect(keys).to.include('bar')
+      })
+    })
+  })
+
+  describe('.using', function() {
+    var BoundScopy
+    var counter = 0
+    var namePrefix
+
+    beforeEach(function() {
+      counter++
+      namePrefix = 'using.t' + counter + '.'
+    })
+
+    context('when no options are provided', function() {
+      before(function() {
+        BoundScopy = Scopy.using()
+      })
+
+      it('should use symbols (where possible)', function() {
+        var foo = namePrefix + 'foo'
+        var bar = namePrefix + 'bar'
+
+        var expectedValues = {
+          foo: true,
+          bar: 123,
+          _fu: 'Hello'
+        }
+
+        expect(BoundScopy('foo')).to.be.a('symbol')
+
+        var scopedKeys = BoundScopy.all([ 'foo', 'bar' ])
+
+        expect(scopedKeys).to.have.all.keys([ 'foo', 'bar' ])
+        expect(scopedKeys.foo).to.be.a('symbol')
+        expect(scopedKeys.bar).to.be.a('symbol')
+
+        expect(BoundScopy.for(foo)).to.be.a('symbol')
+
+        var globalKeys = BoundScopy.for.all([ foo, bar ])
+
+        expect(globalKeys).to.have.all.keys([ foo, bar ])
+        expect(globalKeys[foo]).to.be.a('symbol')
+        expect(globalKeys[bar]).to.be.a('symbol')
+
+        expect(globalKeys).to.deep.equal(BoundScopy.forAll([ foo, bar ]))
+
+        expect(BoundScopy.is(Symbol('foo'))).to.be.true
+        expect(BoundScopy.is('_foo')).to.be.false
+
+        var entries = BoundScopy.entries(new Test())
+
+        expect(entries).to.have.lengthOf(3)
+        expect(expectedValues).to.have.ownProperty(entries[0][0])
+        expect(expectedValues[entries[0][0]]).to.equal(entries[0][1])
+        expect(expectedValues).to.have.ownProperty(entries[1][0])
+        expect(expectedValues[entries[1][0]]).to.equal(entries[1][1])
+        expect(expectedValues).to.have.ownProperty(entries[2][0])
+        expect(expectedValues[entries[2][0]]).to.equal(entries[2][1])
+
+        var keys = BoundScopy.keys(new Test())
+
+        expect(keys).to.have.lengthOf(3)
+        expect(keys).to.include('foo')
+        expect(keys).to.include('bar')
+        expect(keys).to.include('_fu')
+
+        var values = BoundScopy.values(new Test())
+
+        expect(values).to.have.lengthOf(3)
+        expect(values).to.include(true)
+        expect(values).to.include(123)
+        expect(values).to.include('Hello')
+
+        expect(BoundScopy.using({ symbol: false })('foo')).to.equal('_foo')
+      })
+
+      it('should ignore any options passed to methods', function() {
+        expect(BoundScopy('foo', { symbol: false })).to.be.a('symbol')
+      })
+    })
+
+    context('when options are provided', function() {
+      before(function() {
+        BoundScopy = Scopy.using({ symbol: false })
+      })
+
+      it('should apply options to all methods', function() {
+        var foo = namePrefix + 'foo'
+        var bar = namePrefix + 'bar'
+
+        var expectedValues = {
+          foo: true,
+          bar: 123
+        }
+
+        expect(BoundScopy('foo')).to.equal('_foo')
+        expect(BoundScopy.all([ 'foo', 'bar' ])).to.deep.equal({
+          foo: '_foo',
+          bar: '_bar'
+        })
+        expect(BoundScopy.for(foo)).to.equal('_' + foo)
+
+        var globalKeys = BoundScopy.for.all([ foo, bar ])
+
+        expect(globalKeys[foo]).to.equal('_' + foo)
+        expect(globalKeys[bar]).to.equal('_' + bar)
+
+        expect(globalKeys).to.deep.equal(BoundScopy.forAll([ foo, bar ]))
+
+        expect(BoundScopy.is('_foo')).to.be.true
+        expect(BoundScopy.is(Symbol('foo'))).to.be.false
+
+        var entries = BoundScopy.entries(new Test())
+
+        expect(entries).to.have.lengthOf(2)
+        expect(expectedValues).to.have.ownProperty(entries[0][0])
+        expect(expectedValues[entries[0][0]]).to.equal(entries[0][1])
+        expect(expectedValues).to.have.ownProperty(entries[1][0])
+        expect(expectedValues[entries[1][0]]).to.equal(entries[1][1])
+
+        var keys = BoundScopy.keys(new Test())
+
+        expect(keys).to.have.lengthOf(2)
+        expect(keys).to.include('foo')
+        expect(keys).to.include('bar')
+
+        var values = BoundScopy.values(new Test())
+
+        expect(values).to.have.lengthOf(2)
+        expect(values).to.include(true)
+        expect(values).to.include(123)
+
+        expect(BoundScopy.using({ symbol: true })('foo')).to.be.a('symbol')
+      })
+
+      it('should ignore any options passed to methods', function() {
+        expect(BoundScopy('foo', { symbol: true })).to.equal('_foo')
       })
     })
   })

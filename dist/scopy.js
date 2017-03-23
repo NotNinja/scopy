@@ -166,9 +166,9 @@
    * }
    *
    * Scopy.entries(new User('foo'))
-   * //=> [ [ 'length', 3 ] ]
+   * //=> [ [ "length", 3 ] ]
    * Scopy.entries(User.prototype)
-   * //=> [ [ 'getName', function() { return this[_name] } ] ]
+   * //=> [ [ "getName", function() { return this[_name] } ] ]
    * </pre>
    * @param {Object} obj - the object whose enumerable own non-scoped property key/value pairs are to be returned
    * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
@@ -265,7 +265,7 @@
    * var Scopy = require('scopy')
    * var uuid = require('node-uuid/v4')
    *
-   * var keys = Scopy.forAll([ 'example_user_id', 'example_user_lastUpdatedBy' ])
+   * var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
    * var _name = Scopy('name')
    *
    * function User(name) {
@@ -284,7 +284,7 @@
    * var EOL = require('os').EOL
    * var Scopy = require('scopy')
    *
-   * var keys = Scopy.forAll([ 'example_user_id', 'example_user_lastUpdatedBy' ])
+   * var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
    *
    * exports.update = function(output, user) {
    *   var id = user[keys['example.user.id']]
@@ -299,9 +299,9 @@
    * keys.
    * @public
    * @static
-   * @memberof Scopy
+   * @memberof Scopy.for
    */
-  Scopy.forAll = function(names, options) {
+  Scopy.for.all = function(names, options) {
     names = names || [];
 
     var factory = getKeyFactory(true, options);
@@ -317,6 +317,19 @@
 
     return keys
   };
+
+  /**
+   * An alias for the {@link Scopy.for.all} method.
+   *
+   * @param {string[]} [names] - the names for the "global" keys (may be <code>null</code>)
+   * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
+   * @return {Object.<string, string|symbol>} A mapping containing <code>names</code> and their corresponding "global"
+   * keys.
+   * @public
+   * @static
+   * @memberof Scopy
+   */
+  Scopy.forAll = Scopy.for.all;
 
   /**
    * Returns whether the specified <code>obj</code> represents a scoped or "global" key based on the <code>options</code>
@@ -389,9 +402,9 @@
    * }
    *
    * Scopy.keys(new User('foo'))
-   * //=> [ 'length' ]
+   * //=> [ "length" ]
    * Scopy.keys(User.prototype)
-   * //=> [ 'getName' ]
+   * //=> [ "getName" ]
    * </pre>
    * @param {Object} obj - the object whose enumerable own non-scoped property names are to be returned
    * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
@@ -405,6 +418,56 @@
     return mapProperties(obj, function(value, name) {
       return name
     }, options)
+  };
+
+  /**
+   * Returns a version of {@link Scopy} that is bound (along with <i>all</i> of its methods) to the specified
+   * <code>options</code>.
+   *
+   * Since it's recommended that consumers use the same options, when specified, this method can be really useful as it
+   * allows consumers to only specify the options once. This is especially useful for those wishing to explictly disable
+   * the <code>symbol</code> option.
+   *
+   * Any options passed to the methods within the returned wrapped Scopy API will be ignored in favor of
+   * <code>options</code>.
+   *
+   * @example
+   * <pre>
+   * var Scopy = require('scopy').using({ symbol: false })
+   *
+   * Scopy('foo')
+   * //=> "_foo"
+   * Scopy.all([ 'foo', 'bar' ])
+   * //=> { foo: "_foo", bar: "_bar" }
+   * Scopy.is('_foo')
+   * //=> true
+   * Scopy.is(Symbol('foo'))
+   * //=> false
+   * </pre>
+   * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
+   * @return {Function} A version of {@link Scopy} that will, along with its methods, always use <code>options</code>.
+   * @public
+   * @static
+   * @memberof Scopy
+   */
+  Scopy.using = function(options) {
+    options = parseOptions(options);
+
+    var BoundScopy = applyOptions(Scopy, options);
+    applyOptionsToAll(Scopy, BoundScopy, [
+      'all',
+      'entries',
+      'for',
+      'forAll',
+      'is',
+      'keys',
+      'values'
+    ], options);
+
+    BoundScopy.for.all = BoundScopy.forAll;
+    BoundScopy.using = Scopy.using;
+
+    return BoundScopy
   };
 
   /**
@@ -458,6 +521,50 @@
       return value
     }, options)
   };
+
+  /**
+   * Returns a function that delegates the call to the specified <code>func</code> so that the <code>options</code>
+   * provided are always passed to it.
+   *
+   * The returned function will always return the return value of calling <code>func</code>.
+   *
+   * @param {Function} func - the function to which <code>options</code> are to be applied
+   * @param {Scopy~Options} options - the <code>options</code> to be applied
+   * @return {Function} A function which will always pass <code>options</code> as the last argument to <code>func</code>.
+   * @private
+   */
+  function applyOptions(func, options) {
+    return function() {
+      var args = Array.prototype.slice.call(arguments, 0, 1);
+
+      return func.apply(null, args.concat(options))
+    }
+  }
+
+  /**
+   * Assigns functions to the specified <code>target</code> for all of the <code>names</code> provided that delegate their
+   * calls to the function of the same name on the given <code>source</code> so that the <code>options</code> provided are
+   * always passed to them.
+   *
+   * Each proxy function will always return the return value of calling the original function.
+   *
+   * @param {Object} source - the object on which the original functions belong
+   * @param {Object} target - the object to which the proxy functions are to be assigned
+   * @param {string[]} names - the names of each function to be proxied
+   * @param {Scopy~Options} options - the <code>options</code> to be used
+   * @return {void}
+   * @private
+   */
+  function applyOptionsToAll(source, target, names, options) {
+    var length = names.length;
+    var name;
+
+    for (var i = 0; i < length; i++) {
+      name = names[i];
+
+      target[name] = applyOptions(source[name], options);
+    }
+  }
 
   /**
    * Returns a function which can be used to create scoped/"global" keys based on the <code>options</code> provided and a
