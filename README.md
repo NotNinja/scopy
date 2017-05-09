@@ -11,7 +11,7 @@
                                 888       "Y88P"
 
 [![Build Status](https://img.shields.io/travis/Skelp/scopy/develop.svg?style=flat-square)](https://travis-ci.org/Skelp/scopy)
-[![Coverage](https://img.shields.io/coveralls/Skelp/scopy/develop.svg?style=flat-square)](https://coveralls.io/github/Skelp/scopy)
+[![Coverage](https://img.shields.io/codecov/c/github/NotNinja/scopy/develop.svg?style=flat-square)](https://codecov.io/gh/NotNinja/scopy)
 [![Dev Dependency Status](https://img.shields.io/david/dev/Skelp/scopy.svg?style=flat-square)](https://david-dm.org/Skelp/scopy?type=dev)
 [![License](https://img.shields.io/npm/l/scopy.svg?style=flat-square)](https://github.com/Skelp/scopy/blob/master/LICENSE.md)
 [![Release](https://img.shields.io/npm/v/scopy.svg?style=flat-square)](https://www.npmjs.com/package/scopy)
@@ -340,7 +340,7 @@ Returns the values of all of the specified object's own enumerable properties th
 that provided by a for-in loop.
 
 Properties mapped to a `Symbol` are **never** included in this method but those mapped to properties whose name is
-prefixed with an underscore, created when the`symbol` option has been explicitly disabled, **will** be included 
+prefixed with an underscore, created when the`symbol` option has been explicitly disabled, **will** be included
 **unless** the `symbol` option is explicitly disabled when calling this method.
 
 This method is intended to be used just like ES2015's`Object.values` method while also supporting cases where `Symbols`
