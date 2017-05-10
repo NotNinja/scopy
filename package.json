@@ -23,11 +23,11 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "codecov": "^2.1.0",
+    "codecov": "^2.2.0",
     "eslint-config-notninja": "^0.1.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "grunt-mocha-istanbul": "^5.0.2",
@@ -35,10 +35,10 @@
     "grunt-rollup": "^1.0.1",
     "istanbul": "^0.4.5",
     "load-grunt-tasks": "^3.5.2",
-    "mocha": "^3.2.0",
+    "mocha": "^3.3.0",
     "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-plugin-uglify": "^1.0.1"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^1.0.2"
   },
   "main": "src/scopy.js",
   "browser": "dist/scopy.js",
