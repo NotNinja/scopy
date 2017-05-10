@@ -1,3 +1,8 @@
+## Version 0.3.0, 2017.05.10
+
+* Move to !ninja [#6](https://github.com/NotNinja/scopy/issues/6)
+* Switch to Codecov for code coverage [#7](https://github.com/NotNinja/scopy/issues/7)
+
 ## Version 0.2.0, 2017.03.23
 
 * Correct anchor links in `README.md` [#2](https://github.com/NotNinja/scopy/issues/2)
