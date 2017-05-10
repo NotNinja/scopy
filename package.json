@@ -2,14 +2,14 @@
   "name": "scopy",
   "version": "0.2.0",
   "description": "Property scoping done quick and dirty",
-  "homepage": "https://github.com/Skelp/scopy",
+  "homepage": "https://github.com/NotNinja/scopy",
   "bugs": {
-    "url": "https://github.com/Skelp/scopy/issues"
+    "url": "https://github.com/NotNinja/scopy/issues"
   },
   "author": {
     "name": "Alasdair Mercer",
-    "email": "alasdair@skelp.io",
-    "url": "https://skelp.io"
+    "email": "mercer.alasdair@gmail.com",
+    "url": "https://not.ninja"
   },
   "license": "MIT",
   "keywords": [
@@ -19,12 +19,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Skelp/scopy.git"
+    "url": "https://github.com/NotNinja/scopy.git"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "codecov": "^2.1.0",
-    "eslint-config-skelp": "^0.1.5",
+    "eslint-config-notninja": "^0.1.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",

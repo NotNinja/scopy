@@ -2,12 +2,12 @@
   "name": "scopy",
   "version": "0.2.0",
   "description": "Property scoping done quick and dirty",
-  "homepage": "https://github.com/Skelp/scopy",
+  "homepage": "https://github.com/NotNinja/scopy",
   "authors": [
     {
       "name": "Alasdair Mercer",
-      "email": "alasdair@skelp.io",
-      "homepage": "https://skelp.io"
+      "email": "mercer.alasdair@gmail.com",
+      "homepage": "https://not.ninja"
     }
   ],
   "license": "MIT",
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Skelp/scopy.git"
+    "url": "https://github.com/NotNinja/scopy.git"
   },
   "main": "dist/scopy.js",
   "moduleType": [

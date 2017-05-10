@@ -10,13 +10,13 @@
                                 888      Y8b d88P
                                 888       "Y88P"
 
-[![Build Status](https://img.shields.io/travis/Skelp/scopy/develop.svg?style=flat-square)](https://travis-ci.org/Skelp/scopy)
+[![Build Status](https://img.shields.io/travis/NotNinja/scopy/develop.svg?style=flat-square)](https://travis-ci.org/NotNinja/scopy)
 [![Coverage](https://img.shields.io/codecov/c/github/NotNinja/scopy/develop.svg?style=flat-square)](https://codecov.io/gh/NotNinja/scopy)
-[![Dev Dependency Status](https://img.shields.io/david/dev/Skelp/scopy.svg?style=flat-square)](https://david-dm.org/Skelp/scopy?type=dev)
-[![License](https://img.shields.io/npm/l/scopy.svg?style=flat-square)](https://github.com/Skelp/scopy/blob/master/LICENSE.md)
+[![Dev Dependency Status](https://img.shields.io/david/dev/NotNinja/scopy.svg?style=flat-square)](https://david-dm.org/NotNinja/scopy?type=dev)
+[![License](https://img.shields.io/npm/l/scopy.svg?style=flat-square)](https://github.com/NotNinja/scopy/blob/master/LICENSE.md)
 [![Release](https://img.shields.io/npm/v/scopy.svg?style=flat-square)](https://www.npmjs.com/package/scopy)
 
-[Scopy](https://github.com/Skelp/scopy) is a lightweight quick and dirty property scoping library for JavaScript that
+[Scopy](https://github.com/NotNinja/scopy) is a lightweight quick and dirty property scoping library for JavaScript that
 utilizes ECMAScript 2015's `Symbol` where possible and falls back on good old trailing underscore naming conventions.
 
 It doesn't really offer *true* privacy as symbols can still be looked up using `Object.getOwnPropertySymbols` and
@@ -53,8 +53,8 @@ install that way instead of using `npm`. While equals should be compatible with 
 
 If you want to simply download the file to be used in the browser you can find them below:
 
-* [Development Version](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.js) (23kb - [Source Map](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.js.map))
-* [Production Version](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.min.js) (1.6kb - [Source Map](https://cdn.rawgit.com/Skelp/scopy/master/dist/scopy.min.js.map))
+* [Development Version](https://cdn.rawgit.com/NotNinja/scopy/master/dist/scopy.js) (22kb - [Source Map](https://cdn.rawgit.com/NotNinja/scopy/master/dist/scopy.js.map))
+* [Production Version](https://cdn.rawgit.com/NotNinja/scopy/master/dist/scopy.min.js) (1.6kb - [Source Map](https://cdn.rawgit.com/NotNinja/scopy/master/dist/scopy.min.js.map))
 
 ## API
 
@@ -84,19 +84,19 @@ This method is ideal when defining a key for a privately scoped property.
 
 ``` javascript
 // user.js
-var Scopy = require('scopy')
+var Scopy = require('scopy');
 
-var _name = Scopy('name')
+var _name = Scopy('name');
 
 function User(name) {
-  this[_name] = name
+  this[_name] = name;
 }
 
 User.prototype.getName = function() {
-  return this[_name]
-}
+  return this[_name];
+};
 
-module.exports = User
+module.exports = User;
 ```
 
 ### `Scopy.all(names[, options])`
@@ -113,24 +113,24 @@ This method is ideal when defining keys for privately scoped properties.
 
 ``` javascript
 // user.js
-var Scopy = require('scopy')
+var Scopy = require('scopy');
 
-var keys = Scopy.all([ 'email', 'name' ])
+var keys = Scopy.all([ 'email', 'name' ]);
 
 function User(email, name) {
-  this[keys.email] = email
-  this[keys.name] = name
+  this[keys.email] = email;
+  this[keys.name] = name;
 }
 
 User.prototype.getEmail = function() {
-  return this[keys.email]
-}
+  return this[keys.email];
+};
 
 User.prototype.getName = function() {
-  return this[keys.name]
-}
+  return this[keys.name];
+};
 
-module.exports = User
+module.exports = User;
 ```
 
 ### `Scopy.for(name[, options])`
@@ -150,34 +150,34 @@ This method is ideal when defining a key for a protected/internally scoped prope
 
 ``` javascript
 // user.js
-var Scopy = require('scopy')
-var uuid = require('node-uuid/v4')
+var Scopy = require('scopy');
+var uuid = require('uuid/v4');
 
-var _id = Scopy.for('example_user_id')
-var _name = Scopy('name')
+var _id = Scopy.for('example_user_id');
+var _name = Scopy('name');
 
 function User(name) {
-  this[_id] = uuid()
-  this[_name] = name
+  this[_id] = uuid();
+  this[_name] = name;
 }
 
 User.prototype.getName = function() {
-  return this[_name]
-}
+  return this[_name];
+};
 
-module.exports = User
+module.exports = User;
 
 // user-logger.js
-var EOL = require('os').EOL
-var Scopy = require('scopy')
+var EOL = require('os').EOL;
+var Scopy = require('scopy');
 
-var _id = Scopy.for('example_user_id')
+var _id = Scopy.for('example_user_id');
 
 exports.login = function(output, user) {
-  var id = user[_id]
+  var id = user[_id];
 
-  output.write('User[' + id + '] has logged in!' + EOL)
-}
+  output.write('User[' + id + '] has logged in!' + EOL);
+};
 ```
 
 ### `Scopy.for.all(names[, options])`
@@ -200,36 +200,36 @@ This method is ideal when defining keys for protected/internally scoped properti
 
 ``` javascript
 // user.js
-var Scopy = require('scopy')
-var uuid = require('node-uuid/v4')
+var Scopy = require('scopy');
+var uuid = require('uuid/v4');
 
-var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
-var _name = Scopy('name')
+var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ]);
+var _name = Scopy('name');
 
 function User(name) {
-  this[keys['example.user.id']] = uuid()
-  this[keys['example.user.lastUpdatedBy']] = null
-  this[_name] = name
+  this[keys['example.user.id']] = uuid();
+  this[keys['example.user.lastUpdatedBy']] = null;
+  this[_name] = name;
 }
 
 User.prototype.getName = function() {
-  return this[_name]
-}
+  return this[_name];
+};
 
-module.exports = User
+module.exports = User;
 
 // user-logger.js
-var EOL = require('os').EOL
-var Scopy = require('scopy')
+var EOL = require('os').EOL;
+var Scopy = require('scopy');
 
-var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
+var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ]);
 
 exports.update = function(output, user) {
-  var id = user[keys['example.user.id']]
-  var lastUpdatedBy = user[keys['example.user.lastUpdatedBy']]
+  var id = user[keys['example.user.id']];
+  var lastUpdatedBy = user[keys['example.user.lastUpdatedBy']];
 
-  output.write('User[' + id + '] has been updated by ' + lastUpdatedBy + EOL)
-}
+  output.write('User[' + id + '] has been updated by ' + lastUpdatedBy + EOL);
+};
 ```
 
 ### `Scopy.is(obj[, options])`
@@ -241,13 +241,13 @@ If the `symbol` option is enabled (which it is by default), this method will ret
 least one underscore.
 
 ``` javascript
-var Scopy = require('scopy')
+var Scopy = require('scopy');
 
-Scopy.is(Scopy('foo'))
+Scopy.is(Scopy('foo'));
 //=> true
-Scopy.is(Scopy('foo', { symbol: false }))
+Scopy.is(Scopy('foo', { symbol: false }));
 //=> true
-Scopy.is('foo')
+Scopy.is('foo');
 //=> false
 ```
 
@@ -267,30 +267,30 @@ This method is intended to be used just like ES2015's `Object.entries` method wh
 `Symbols` have not been used to scope properties.
 
 ``` javascript
-var Scopy = require('scopy')
-var uuid = require('uuid/v4')
+var Scopy = require('scopy');
+var uuid = require('uuid/v4');
 
-var _generateId = Scopy('generateId')
-var _id = Scopy('id')
-var _name = Scopy('name')
+var _generateId = Scopy('generateId');
+var _id = Scopy('id');
+var _name = Scopy('name');
 
 function User(name) {
-  this[_id] = this[_generateId]()
-  this[_name] = name
-  this.length = name.length
+  this[_id] = this[_generateId]();
+  this[_name] = name;
+  this.length = name.length;
 }
 
 User.prototype[_generateId] = function() {
-  return uuid()
-}
+  return uuid();
+};
 
 User.prototype.getName = function() {
-  return this[_name]
-}
+  return this[_name];
+};
 
-Scopy.entries(new User('foo'))
+Scopy.entries(new User('foo'));
 //=> [ [ "length", 3 ] ]
-Scopy.entries(User.prototype)
+Scopy.entries(User.prototype);
 //=> [ [ "getName", function() { return this[_name] } ] ]
 ```
 
@@ -307,30 +307,30 @@ This method is intended to be used just like ES2015's `Object.keys` method while
 have not been used to scope properties.
 
 ``` javascript
-var Scopy = require('scopy')
-var uuid = require('uuid/v4')
+var Scopy = require('scopy');
+var uuid = require('uuid/v4');
 
-var _generateId = Scopy('generateId')
-var _id = Scopy('id')
-var _name = Scopy('name')
+var _generateId = Scopy('generateId');
+var _id = Scopy('id');
+var _name = Scopy('name');
 
 function User(name) {
-  this[_id] = this[_generateId]()
-  this[_name] = name
-  this.length = name.length
+  this[_id] = this[_generateId]();
+  this[_name] = name;
+  this.length = name.length;
 }
 
 User.prototype[_generateId] = function() {
-  return uuid()
-}
+  return uuid();
+};
 
 User.prototype.getName = function() {
-  return this[_name]
-}
+  return this[_name];
+};
 
-Scopy.keys(new User('foo'))
+Scopy.keys(new User('foo'));
 //=> [ "length" ]
-Scopy.keys(User.prototype)
+Scopy.keys(User.prototype);
 //=> [ "getName" ]
 ```
 
@@ -347,30 +347,30 @@ This method is intended to be used just like ES2015's`Object.values` method whil
 have not been used to scope properties.
 
 ``` javascript
-var Scopy = require('scopy')
-var uuid = require('uuid/v4')
+var Scopy = require('scopy');
+var uuid = require('uuid/v4');
 
-var _generateId = Scopy('generateId')
-var _id = Scopy('id')
-var _name = Scopy('name')
+var _generateId = Scopy('generateId');
+var _id = Scopy('id');
+var _name = Scopy('name');
 
 function User(name) {
-  this[_id] = this[_generateId]()
-  this[_name] = name
-  this.length = name.length
+  this[_id] = this[_generateId]();
+  this[_name] = name;
+  this.length = name.length;
 }
 
 User.prototype[_generateId] = function() {
-  return uuid()
-}
+  return uuid();
+};
 
 User.prototype.getName = function() {
-  return this[_name]
-}
+  return this[_name];
+};
 
-Scopy.values(new User('foo'))
+Scopy.values(new User('foo'));
 //=> [ 3 ]
-Scopy.values(User.prototype)
+Scopy.values(User.prototype);
 //=> [ function() { return this[_name] } ]
 ```
 
@@ -386,33 +386,33 @@ allows consumers to only specify the options once. This is especially useful for
 Any options passed to the methods within the returned wrapped Scopy API will be ignored in favor of `options`.
 
 ``` javascript
-var Scopy = require('scopy').using({ symbol: false })
+var Scopy = require('scopy').using({ symbol: false });
 
-Scopy('foo')
+Scopy('foo');
 //=> "_foo"
-Scopy.all([ 'foo', 'bar' ])
+Scopy.all([ 'foo', 'bar' ]);
 //=> { foo: "_foo", bar: "_bar" }
-Scopy.is('_foo')
+Scopy.is('_foo');
 //=> true
-Scopy.is(Symbol('foo'))
+Scopy.is(Symbol('foo'));
 //=> false
 ```
 
 ## Bugs
 
 If you have any problems with Scopy or would like to see changes currently in development you can do so
-[here](https://github.com/Skelp/scopy/issues).
+[here](https://github.com/NotNinja/scopy/issues).
 
 ## Contributors
 
 If you want to contribute, you're a legend! Information on how you can do so can be found in
-[CONTRIBUTING.md](https://github.com/Skelp/scopy/blob/master/CONTRIBUTING.md). We want your suggestions and pull
+[CONTRIBUTING.md](https://github.com/NotNinja/scopy/blob/master/CONTRIBUTING.md). We want your suggestions and pull
 requests!
 
-A list of Scopy contributors can be found in [AUTHORS.md](https://github.com/Skelp/scopy/blob/master/AUTHORS.md).
+A list of Scopy contributors can be found in [AUTHORS.md](https://github.com/NotNinja/scopy/blob/master/AUTHORS.md).
 
 ## License
 
-See [LICENSE.md](https://github.com/Skelp/scopy/raw/master/LICENSE.md) for more information on our MIT license.
+See [LICENSE.md](https://github.com/NotNinja/scopy/raw/master/LICENSE.md) for more information on our MIT license.
 
-[![Copyright Skelp](https://cdn.rawgit.com/Skelp/skelp-branding/master/assets/footer/invert-filled/skelp-footer-invert-filled.svg)](https://skelp.io)
+[![Copyright !ninja](https://cdn.rawgit.com/NotNinja/branding/master/assets/copyright/base/not-ninja-copyright-186x25.png)](https://not.ninja)
