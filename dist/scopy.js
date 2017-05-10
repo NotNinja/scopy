@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Copyright (C) 2017 Alasdair Mercer, Skelp
+   * Copyright (C) 2017 Alasdair Mercer, !ninja
    *
    * Permission is hereby granted, free of charge, to any person obtaining a copy
    * of this software and associated documentation files (the "Software"), to deal
@@ -40,19 +40,19 @@
    * @example
    * <pre>
    * // user.js
-   * var Scopy = require('scopy')
+   * var Scopy = require('scopy');
    *
-   * var _name = Scopy('name')
+   * var _name = Scopy('name');
    *
    * function User(name) {
-   *   this[_name] = name
+   *   this[_name] = name;
    * }
    *
    * User.prototype.getName = function() {
-   *   return this[_name]
-   * }
+   *   return this[_name];
+   * };
    *
-   * module.exports = User
+   * module.exports = User;
    * </pre>
    * @param {string} name - the name for the scoped key
    * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
@@ -62,12 +62,12 @@
    */
   function Scopy(name, options) {
     if (this instanceof Scopy) {
-      throw new TypeError('Scopy is not a constructor')
+      throw new TypeError('Scopy is not a constructor');
     }
 
     var factory = getKeyFactory(false, options);
 
-    return factory(name)
+    return factory(name);
   }
 
   /**
@@ -85,24 +85,24 @@
    * @example
    * <pre>
    * // user.js
-   * var Scopy = require('scopy')
+   * var Scopy = require('scopy');
    *
-   * var keys = Scopy.all([ 'email', 'name' ])
+   * var keys = Scopy.all([ 'email', 'name' ]);
    *
    * function User(email, name) {
-   *   this[keys.email] = email
-   *   this[keys.name] = name
+   *   this[keys.email] = email;
+   *   this[keys.name] = name;
    * }
    *
    * User.prototype.getEmail = function() {
-   *   return this[keys.email]
-   * }
+   *   return this[keys.email];
+   * };
    *
    * User.prototype.getName = function() {
-   *   return this[keys.name]
-   * }
+   *   return this[keys.name];
+   * };
    *
-   * module.exports = User
+   * module.exports = User;
    * </pre>
    * @param {string[]} [names] - the names for the scoped keys (may be <code>null</code>)
    * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
@@ -116,16 +116,12 @@
 
     var factory = getKeyFactory(false, options);
     var keys = {};
-    var length = names.length;
-    var name;
 
-    for (var i = 0; i < length; i++) {
-      name = names[i];
-
+    names.forEach(function(name) {
       keys[name] = factory(name);
-    }
+    });
 
-    return keys
+    return keys;
   };
 
   /**
@@ -144,30 +140,30 @@
    *
    * @example
    * <pre>
-   * var Scopy = require('scopy')
-   * var uuid = require('uuid/v4')
+   * var Scopy = require('scopy');
+   * var uuid = require('uuid/v4');
    *
-   * var _generateId = Scopy('generateId')
-   * var _id = Scopy('id')
-   * var _name = Scopy('name')
+   * var _generateId = Scopy('generateId');
+   * var _id = Scopy('id');
+   * var _name = Scopy('name');
    *
    * function User(name) {
-   *   this[_id] = this[_generateId]()
-   *   this[_name] = name
-   *   this.length = name.length
+   *   this[_id] = this[_generateId]();
+   *   this[_name] = name;
+   *   this.length = name.length;
    * }
    *
    * User.prototype[_generateId] = function() {
-   *   return uuid()
-   * }
+   *   return uuid();
+   * };
    *
    * User.prototype.getName = function() {
-   *   return this[_name]
-   * }
+   *   return this[_name];
+   * };
    *
-   * Scopy.entries(new User('foo'))
+   * Scopy.entries(new User('foo'));
    * //=> [ [ "length", 3 ] ]
-   * Scopy.entries(User.prototype)
+   * Scopy.entries(User.prototype);
    * //=> [ [ "getName", function() { return this[_name] } ] ]
    * </pre>
    * @param {Object} obj - the object whose enumerable own non-scoped property key/value pairs are to be returned
@@ -180,8 +176,8 @@
    */
   Scopy.entries = function(obj, options) {
     return mapProperties(obj, function(value, name) {
-      return [ name, value ]
-    }, options)
+      return [ name, value ];
+    }, options);
   };
 
   /**
@@ -202,34 +198,34 @@
    * @example
    * <pre>
    * // user.js
-   * var Scopy = require('scopy')
-   * var uuid = require('node-uuid/v4')
+   * var Scopy = require('scopy');
+   * var uuid = require('uuid/v4');
    *
-   * var _id = Scopy.for('example_user_id')
-   * var _name = Scopy('name')
+   * var _id = Scopy.for('example_user_id');
+   * var _name = Scopy('name');
    *
    * function User(name) {
-   *   this[_id] = uuid()
-   *   this[_name] = name
+   *   this[_id] = uuid();
+   *   this[_name] = name;
    * }
    *
    * User.prototype.getName = function() {
-   *   return this[_name]
-   * }
+   *   return this[_name];
+   * };
    *
-   * module.exports = User
+   * module.exports = User;
    *
    * // user-logger.js
-   * var EOL = require('os').EOL
-   * var Scopy = require('scopy')
+   * var EOL = require('os').EOL;
+   * var Scopy = require('scopy');
    *
-   * var _id = Scopy.for('example_user_id')
+   * var _id = Scopy.for('example_user_id');
    *
    * exports.login = function(output, user) {
-   *   var id = user[_id]
+   *   var id = user[_id];
    *
-   *   output.write('User[' + id + '] has logged in!' + EOL)
-   * }
+   *   output.write('User[' + id + '] has logged in!' + EOL);
+   * };
    * </pre>
    * @param {string} name - the name for the "global" key
    * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
@@ -241,7 +237,7 @@
   Scopy.for = function(name, options) {
     var factory = getKeyFactory(true, options);
 
-    return factory(name)
+    return factory(name);
   };
 
   /**
@@ -262,36 +258,36 @@
    * @example
    * <pre>
    * // user.js
-   * var Scopy = require('scopy')
-   * var uuid = require('node-uuid/v4')
+   * var Scopy = require('scopy');
+   * var uuid = require('uuid/v4');
    *
-   * var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
-   * var _name = Scopy('name')
+   * var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ]);
+   * var _name = Scopy('name');
    *
    * function User(name) {
-   *   this[keys['example.user.id']] = uuid()
-   *   this[keys['example.user.lastUpdatedBy']] = null
-   *   this[_name] = name
+   *   this[keys['example.user.id']] = uuid();
+   *   this[keys['example.user.lastUpdatedBy']] = null;
+   *   this[_name] = name;
    * }
    *
    * User.prototype.getName = function() {
-   *   return this[_name]
-   * }
+   *   return this[_name];
+   * };
    *
-   * module.exports = User
+   * module.exports = User;
    *
    * // user-logger.js
-   * var EOL = require('os').EOL
-   * var Scopy = require('scopy')
+   * var EOL = require('os').EOL;
+   * var Scopy = require('scopy');
    *
-   * var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ])
+   * var keys = Scopy.for.all([ 'example_user_id', 'example_user_lastUpdatedBy' ]);
    *
    * exports.update = function(output, user) {
-   *   var id = user[keys['example.user.id']]
-   *   var lastUpdatedBy = user[keys['example.user.lastUpdatedBy']]
+   *   var id = user[keys['example.user.id']];
+   *   var lastUpdatedBy = user[keys['example.user.lastUpdatedBy']];
    *
-   *   output.write('User[' + id + '] has been updated by ' + lastUpdatedBy + EOL)
-   * }
+   *   output.write('User[' + id + '] has been updated by ' + lastUpdatedBy + EOL);
+   * };
    * </pre>
    * @param {string[]} [names] - the names for the "global" keys (may be <code>null</code>)
    * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
@@ -306,16 +302,12 @@
 
     var factory = getKeyFactory(true, options);
     var keys = {};
-    var length = names.length;
-    var name;
 
-    for (var i = 0; i < length; i++) {
-      name = names[i];
-
+    names.forEach(function(name) {
       keys[name] = factory(name);
-    }
+    });
 
-    return keys
+    return keys;
   };
 
   /**
@@ -341,13 +333,13 @@
    *
    * @example
    * <pre>
-   * var Scopy = require('scopy')
+   * var Scopy = require('scopy');
    *
-   * Scopy.is(Scopy('foo'))
+   * Scopy.is(Scopy('foo'));
    * //=> true
-   * Scopy.is(Scopy('foo', { symbol: false }))
+   * Scopy.is(Scopy('foo', { symbol: false }));
    * //=> true
-   * Scopy.is('foo')
+   * Scopy.is('foo');
    * //=> false
    * </pre>
    * @param {*} obj - the object to be checked (may be <code>null</code>)
@@ -359,12 +351,12 @@
    */
   Scopy.is = function(obj, options) {
     if (obj == null) {
-      return false
+      return false;
     }
 
     options = parseOptions(options);
 
-    return options.symbol ? typeof obj === 'symbol' : typeof obj === 'string' && obj[0] === '_'
+    return options.symbol ? typeof obj === 'symbol' : typeof obj === 'string' && obj[0] === '_';
   };
 
   /**
@@ -380,30 +372,30 @@
    *
    * @example
    * <pre>
-   * var Scopy = require('scopy')
-   * var uuid = require('uuid/v4')
+   * var Scopy = require('scopy');
+   * var uuid = require('uuid/v4');
    *
-   * var _generateId = Scopy('generateId')
-   * var _id = Scopy('id')
-   * var _name = Scopy('name')
+   * var _generateId = Scopy('generateId');
+   * var _id = Scopy('id');
+   * var _name = Scopy('name');
    *
    * function User(name) {
-   *   this[_id] = this[_generateId]()
-   *   this[_name] = name
-   *   this.length = name.length
+   *   this[_id] = this[_generateId]();
+   *   this[_name] = name;
+   *   this.length = name.length;
    * }
    *
    * User.prototype[_generateId] = function() {
-   *   return uuid()
-   * }
+   *   return uuid();
+   * };
    *
    * User.prototype.getName = function() {
-   *   return this[_name]
-   * }
+   *   return this[_name];
+   * };
    *
-   * Scopy.keys(new User('foo'))
+   * Scopy.keys(new User('foo'));
    * //=> [ "length" ]
-   * Scopy.keys(User.prototype)
+   * Scopy.keys(User.prototype);
    * //=> [ "getName" ]
    * </pre>
    * @param {Object} obj - the object whose enumerable own non-scoped property names are to be returned
@@ -416,8 +408,8 @@
    */
   Scopy.keys = function(obj, options) {
     return mapProperties(obj, function(value, name) {
-      return name
-    }, options)
+      return name;
+    }, options);
   };
 
   /**
@@ -433,15 +425,15 @@
    *
    * @example
    * <pre>
-   * var Scopy = require('scopy').using({ symbol: false })
+   * var Scopy = require('scopy').using({ symbol: false });
    *
-   * Scopy('foo')
+   * Scopy('foo');
    * //=> "_foo"
-   * Scopy.all([ 'foo', 'bar' ])
+   * Scopy.all([ 'foo', 'bar' ]);
    * //=> { foo: "_foo", bar: "_bar" }
-   * Scopy.is('_foo')
+   * Scopy.is('_foo');
    * //=> true
-   * Scopy.is(Symbol('foo'))
+   * Scopy.is(Symbol('foo'));
    * //=> false
    * </pre>
    * @param {Scopy~Options} [options] - the options to be used (may be <code>null</code>)
@@ -467,7 +459,7 @@
     BoundScopy.for.all = BoundScopy.forAll;
     BoundScopy.using = Scopy.using;
 
-    return BoundScopy
+    return BoundScopy;
   };
 
   /**
@@ -483,30 +475,30 @@
    *
    * @example
    * <pre>
-   * var Scopy = require('scopy')
-   * var uuid = require('uuid/v4')
+   * var Scopy = require('scopy');
+   * var uuid = require('uuid/v4');
    *
-   * var _generateId = Scopy('generateId')
-   * var _id = Scopy('id')
-   * var _name = Scopy('name')
+   * var _generateId = Scopy('generateId');
+   * var _id = Scopy('id');
+   * var _name = Scopy('name');
    *
    * function User(name) {
-   *   this[_id] = this[_generateId]()
-   *   this[_name] = name
-   *   this.length = name.length
+   *   this[_id] = this[_generateId]();
+   *   this[_name] = name;
+   *   this.length = name.length;
    * }
    *
    * User.prototype[_generateId] = function() {
-   *   return uuid()
-   * }
+   *   return uuid();
+   * };
    *
    * User.prototype.getName = function() {
-   *   return this[_name]
-   * }
+   *   return this[_name];
+   * };
    *
-   * Scopy.values(new User('foo'))
+   * Scopy.values(new User('foo'));
    * //=> [ 3 ]
-   * Scopy.values(User.prototype)
+   * Scopy.values(User.prototype);
    * //=> [ function() { return this[_name] } ]
    * </pre>
    * @param {Object} obj - the object whose enumerable own non-scoped property values are to be returned
@@ -518,8 +510,8 @@
    */
   Scopy.values = function(obj, options) {
     return mapProperties(obj, function(value) {
-      return value
-    }, options)
+      return value;
+    }, options);
   };
 
   /**
@@ -537,8 +529,8 @@
     return function() {
       var args = Array.prototype.slice.call(arguments, 0, 1);
 
-      return func.apply(null, args.concat(options))
-    }
+      return func.apply(null, args.concat(options));
+    };
   }
 
   /**
@@ -556,14 +548,9 @@
    * @private
    */
   function applyOptionsToAll(source, target, names, options) {
-    var length = names.length;
-    var name;
-
-    for (var i = 0; i < length; i++) {
-      name = names[i];
-
+    names.forEach(function(name) {
       target[name] = applyOptions(source[name], options);
-    }
+    });
   }
 
   /**
@@ -580,12 +567,12 @@
     options = parseOptions(options);
 
     if (options.symbol) {
-      return global ? Symbol.for : Symbol
+      return global ? Symbol.for : Symbol;
     }
 
     return function(name) {
-      return '_' + name
-    }
+      return '_' + name;
+    };
   }
 
   /**
@@ -612,7 +599,7 @@
       }
     }
 
-    return result
+    return result;
   }
 
   /**
@@ -630,7 +617,7 @@
 
     var symbol = options.symbol !== false && typeof Symbol === 'function';
 
-    return { symbol: symbol }
+    return { symbol: symbol };
   }
 
   var scopy = Scopy;
